@@ -1,0 +1,17 @@
+{
+	"targets": [
+		{
+			"name": "sushi",
+			"files": [
+				"src/main.asm"
+			],
+			"includes": [
+				"./src/",
+				"./src/includes/"
+			],
+			"resources": [
+				"./resources/font.png"
+			]
+		}
+	]
+}

@@ -1,0 +1,9 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Sushi" type="gbCommandRunConfigurationType" factoryName="GameBoy" singleton="true" show_console_on_std_err="false" show_console_on_std_out="false">
+    <target>sushi</target>
+    <module />
+    <method>
+      <option name="gbBeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
