@@ -10,7 +10,8 @@
 				"./src/includes/"
 			],
 			"resources": [
-				"./resources/font.png"
+				"./resources/font.png",
+				"./resources/level.png"
 			]
 		}
 	]
