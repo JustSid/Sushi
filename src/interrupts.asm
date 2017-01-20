@@ -8,7 +8,7 @@ SECTION	"LCDC",HOME[$0048]
 	reti
 
 SECTION	"Timer_Overflow",HOME[$0050]
-	reti
+	jp timeHandler
 
 SECTION	"Serial",HOME[$0058]
 	reti
@@ -31,11 +31,30 @@ vblankHandler:
 
 	call updateUI
 
-	pop bc
-	pop de
 	pop hl
+	pop de
+	pop bc
 
 .exit:
+	pop af
+
+	reti
+
+
+
+timeHandler:
+	push af
+	push bc
+	push de
+	push hl
+
+	;play music
+
+
+.exit:
+	pop hl
+	pop de
+	pop bc
 	pop af
 
 	reti

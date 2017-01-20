@@ -49,9 +49,15 @@ init:
 	; Enable interrupts
 	ld a, 0
 	ld [rIF], a ; Set the interrupt pending flags to 0
-	ld a, %00000011
+	ld a, %00000111
 	ld [rIE], a ; Unmask all interrupts
 	ei ; Enable interrupts
+
+	; Enable timer interrupt to be triggered at 16Hz
+	ld a, 0
+	ld [rTMA], a
+	ld a, %00000100
+	ld [rTAC], a
 
 	; Go to main loop
 	jp main
