@@ -138,4 +138,4 @@ INCLUDE "tiles.asm"
 INCLUDE "ui.asm"
 INCLUDE "strings.asm"
 
-PRINTV sendWaveRight - start
+PRINTV updateGame - start

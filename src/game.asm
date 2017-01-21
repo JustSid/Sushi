@@ -1,6 +1,8 @@
 IF !DEF(__GAME_ASM__)
 __GAME_ASM__ SET 1
 
+INCLUDE "controls.asm"
+
 updateGame:
 
 	call handleControls
@@ -10,12 +12,25 @@ updateGame:
 	bit 4, a
 	jr z, .end
 
-	call sendWaveRight
+	ld a, [CursorX]
+	jpCorner .horizontalWave
 
-	call updateLevel
+.verticalWave:
+	jr .end
+
+.horizontalWave:
+	or a
+	jr nz, .left
+
+	call z, sendWaveRight
+	jr .end
+
+.left:
+	call sendWaveLeft
+	jr .end
 
 .end:
-
+	call updateLevel
 	ret
 
 sendWaveRight:
@@ -33,8 +48,6 @@ sendWaveRight:
 	add hl, bc
 	jr nz, .loop
 .loopEnd:
-
-
 
 	ld a, 3
 
@@ -82,6 +95,74 @@ sendWaveRight:
 	jr nz, .loopColumn
 
 	add16_8 h, l, 17 ; 9 + 8
+
+	pop af
+	dec a
+	jr nz, .copyRowLoop
+
+	ret
+
+
+sendWaveLeft:
+	; Calculate the offset into LevelData
+	ld hl, LevelData
+
+	ld a, [CursorY]
+	dec a
+
+	jr z, .loopEnd
+	ld bc, 27
+
+.loop:
+	dec a
+	add hl, bc
+	jr nz, .loop
+.loopEnd:
+
+	ld a, 3
+
+.copyRowLoop:
+	push af
+
+	; Go over the columns
+	ld b, 9
+
+.loopColumn:
+	push bc
+
+	ld a, [hl]
+	or a
+	jr z, .fishEnd ; No fish in that column
+
+	; Remove the fish from the position
+	ld b, a
+	ld a, 0
+	ld [hl], a
+	ld a, b
+
+	push hl
+	push af
+
+	; Calculate how far the fish has to move
+	ld b, a
+	ld a, 4
+	sub b
+
+	ld b, a
+	sub16_8 h, l, b
+
+	pop af
+
+	ld [hl], a ; Put the fish into its new position
+
+	pop hl
+
+.fishEnd:
+	pop bc
+
+	inc hl
+	dec b
+	jr nz, .loopColumn
 
 	pop af
 	dec a
@@ -298,7 +379,7 @@ updateLevel:
 	jr .loopCompare
 
 .skipFish3
-	PlaceFish $03 ; Player
+	PlaceFish $05 ; Player
 
 .loopCompare:
 	ld a, c
@@ -323,16 +404,16 @@ updateLevel:
 
 testLevel:
 	;         |          |
-	db 1, 1, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   2, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 2, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
-	db 1, 0, 0,   0, 0, 0,   0, 3, 0
-	db 2, 0, 0,   0, 0, 0,   0, 0, 0
-	db 3, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
-
-	db 0, 0, 1,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 1, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
 ENDC
