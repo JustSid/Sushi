@@ -116,6 +116,12 @@ sendWaveDown:
 
 	; Write the fish into its new row
 	pop af
+
+	ld b, a
+	ld a, [hl]
+
+	call calculateFishFeeding
+
 	ld [hl], a
 
 	pop hl
@@ -208,6 +214,12 @@ sendWaveUp:
 
 	; Write the fish into its new row
 	pop af
+
+	ld b, a
+	ld a, [hl]
+
+	call calculateFishFeeding
+
 	ld [hl], a
 
 	pop hl
@@ -307,6 +319,11 @@ sendWaveRight:
 
 	pop af
 
+	ld b, a
+	ld a, [hl]
+
+	call calculateFishFeeding
+
 	ld [hl], a ; Put the fish into its new position
 
 	pop hl
@@ -399,6 +416,11 @@ sendWaveLeft:
 
 	pop af
 
+	ld b, a
+	ld a, [hl]
+
+	call calculateFishFeeding
+
 	ld [hl], a ; Put the fish into its new position
 
 	pop hl
@@ -422,6 +444,43 @@ sendWaveLeft:
 	jr .fishEnd
 
 .exit:
+	ret
+
+; a = First fish
+; b = Second fish
+;
+; Result stored in a
+calculateFishFeeding:
+
+	cp a, b
+	jr nc, .keepValues
+
+	push de
+
+	ld d, b
+	ld b, a
+	ld a, d
+
+	pop de
+
+.keepValues:
+	push af
+
+	ld a, b
+	cp a, 0
+	jr z, .abortEmptyValue
+
+	pop af
+
+	cp a, 3
+	jr z, .abort
+
+	inc a
+	ret
+
+.abortEmptyValue:
+	pop af
+.abort:
 	ret
 
 
@@ -693,9 +752,9 @@ testLevel:
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
-	db 0, 0, 0,   0, 1, 0,   0, 0, 0
-	db 1, 2, 3,   2, 0, 3,   1, 2, 3
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 1,   2, 3, 0,   0, 0, 0
+	db 0, 0, 0,   0, 2, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
