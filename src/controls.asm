@@ -23,6 +23,20 @@ jpCorner: MACRO
 	jr z, \1
 ENDM
 
+SwapAxis: MACRO
+	ld a, [\1]
+	cp a, 0
+	jr nz, .set0\@
+
+	ld a, 4
+	jr .end\@
+
+.set0\@:
+	ld a, 0
+.end\@
+	ld [\1], a
+ENDM
+
 handleControls:
 	push af
 
@@ -31,7 +45,7 @@ handleControls:
 	bit 1, a
 	jr z, .inputRight
 	ld a, [CursorX]
-	jpCorner .inputRight
+	jpCorner .swapInputLeft
 
 	dec a
 	ld [CursorX], a
@@ -42,6 +56,12 @@ handleControls:
 
 	; When reaching a corner, roll over into the Y direction
 	RollOverCorner CursorX, CursorY
+	jr .inputRight
+
+.swapInputLeft:
+	SwapAxis CursorX
+
+
 
 	; Input Right
 .inputRight:
@@ -49,7 +69,7 @@ handleControls:
 	bit 0, a
 	jr z, .inputUp
 	ld a, [CursorX]
-	jpCorner .inputUp
+	jpCorner .swapInputRight
 
 	inc a
 	ld [CursorX], a
@@ -58,6 +78,12 @@ handleControls:
 
 	; When reaching a corner, roll over into the Y direction
 	RollOverCorner CursorX, CursorY
+	jr .inputUp
+
+.swapInputRight:
+	SwapAxis CursorX
+
+
 
 	; Input Up
 .inputUp:
@@ -65,14 +91,19 @@ handleControls:
 	bit 2, a
 	jr z, .inputDown
 	ld a, [CursorY]
-	jpCorner .inputDown
+	jpCorner .swapInputUp
 
 	dec a
 	ld [CursorY], a
 	jr nz, .inputDown
 
-
 	RollOverCorner CursorY, CursorX
+	jr .inputDown
+
+.swapInputUp:
+	SwapAxis CursorY
+
+
 
 	; Input Down
 .inputDown:
@@ -80,7 +111,7 @@ handleControls:
 	bit 3, a
 	jr z, .end
 	ld a, [CursorY]
-	jpCorner .end
+	jpCorner .swapInputDown
 
 	inc a
 	ld [CursorY], a
@@ -88,6 +119,10 @@ handleControls:
 	jr nz, .end
 
 	RollOverCorner CursorY, CursorX
+	jr .end
+
+.swapInputDown:
+	SwapAxis CursorY
 
 .end:
 
