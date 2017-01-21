@@ -139,4 +139,4 @@ INCLUDE "ui.asm"
 INCLUDE "strings.asm"
 INCLUDE "waves.asm"
 
-PRINTV updateWaveToLeft - start
+PRINTV sendWaveRight - start

@@ -43,7 +43,7 @@ updateGame:
 
 sendWaveRight:
 	; Calculate the offset into LevelData
-	ld hl, LevelData + 8
+	ld hl, LevelData + 9
 
 	ld a, 1
 	ld [WaveType], a
@@ -72,11 +72,12 @@ sendWaveRight:
 	ld b, 9
 
 .loopColumn:
-	push bc
-
 	ld a, [hl]
 	or a
 	jr z, .fishEnd ; No fish in that column
+
+	ld d, b
+	push bc
 
 	; Remove the fish from the position
 	ld b, a
@@ -95,25 +96,39 @@ sendWaveRight:
 	ld b, a
 	add16_8 h, l, b
 
+	ld a, d
+	add b
+
+	cp a, 10
+	jr nc, .fishOverflow
+
 	pop af
 
 	ld [hl], a ; Put the fish into its new position
 
 	pop hl
-
-.fishEnd:
 	pop bc
 
+.fishEnd:
 	dec hl
 	dec b
 	jr nz, .loopColumn
 
-	add16_8 h, l, 17 ; 9 + 8
+	add16_8 h, l, 18
 
 	pop af
 	dec a
 	jr nz, .copyRowLoop
+	jr .exit
 
+.fishOverflow:
+	pop af
+	pop hl
+	pop bc
+
+	jr .fishEnd
+
+.exit:
 	ret
 
 
@@ -424,9 +439,9 @@ updateLevel:
 
 testLevel:
 	;         |          |
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 2, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   3, 0, 0,   0, 0, 0
+	db 0, 0, 0,   3, 0, 0,   0, 0, 0
+	db 0, 0, 0,   3, 0, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
