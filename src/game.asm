@@ -11,7 +11,8 @@ updateGame:
 
 updateControlTiles:
 	load CursorAddress, h, l
-	ld [hl], 0
+	ld a, [CursorTileOld]
+	ld [hl], a
 
 	ld a, [CursorX]
 	and %11111011
@@ -46,14 +47,15 @@ updateControlTiles:
 	jr z, .skipRightBorderWrite
 	ld d, 2
 	ld b, 0
-	ld c, 19
+	ld c, 17
 	add hl, bc
 .skipRightBorderWrite
 
 	ld bc, _SCRN0
 	add hl, bc
+	ld a, [hl]
 	ld [hl], d
-
+	ld [CursorTileOld], a
 	store CursorAddress, h, l
 	jr .end
 .skipLeftRightBorderWrite
@@ -90,8 +92,9 @@ updateControlTiles:
 
 	ld bc, _SCRN0
 	add hl, bc
+	ld a, [hl]
 	ld [hl], d
-
+	ld [CursorTileOld], a
 	store CursorAddress, h, l
 .skipTopBottomBorderWrite
 .end

@@ -33,6 +33,7 @@ LevelData: ds 9 * 9 ; Live Level data
 CursorX: ds 1 ; The wave cursor x position
 CursorY: ds 1 ; The wave cursor y position
 CursorAddress: ds 2 ; Cursor tile address
+CursorTileOld: ds 1 ; Previous tile before cursor was there
 
 ; Misc
 __Scratch: ds 1

@@ -46,10 +46,10 @@ init:
 	call memcpy ; load tile data
 
 	; Clear screen
-	ld hl, _SCRN0
-	ld bc, 1024
-	ld a, 0
-	call memset
+	ld de, _SCRN0 ; $8000
+	ld hl, levelDataStart
+	ld bc, levelDataEnd - levelDataStart
+	call memcpy ; load tile data
 
 	; Enable the LCD again
 	ld a, LCDCF_ON | LCDCF_BG8000 | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG9800 | LCDCF_BGON | LCDCF_OBJ8 | LCDCF_OBJON
