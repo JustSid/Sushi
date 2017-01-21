@@ -102,6 +102,12 @@ updateControlTiles:
 ; hl = level address
 loadLevel:
 
+	; Set the cursor to the upper left corner
+	ld a, 1
+	ld [CursorX], a
+	ld a, 0
+	ld [CursorY], a
+
 	; Copy the level data into RAM
 	push hl
 

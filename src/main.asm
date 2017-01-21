@@ -7,6 +7,7 @@ INCLUDE "macros.asm"
 GLOBAL song_data
 
 SECTION	"start",HOME[$0100]
+start:
 	nop
 	jp	begin
 	ROM_HEADER	ROM_NOMBC, ROM_SIZE_32KBYTE, RAM_SIZE_0KBYTE
@@ -128,11 +129,13 @@ enableLCD:
 	ret
 
 
+INCLUDE "controls.asm"
 INCLUDE "oam.asm"
 INCLUDE "memory.asm"
 INCLUDE "input.asm"
 INCLUDE "tiles.asm"
 INCLUDE "game.asm"
-INCLUDE "controls.asm"
 INCLUDE "ui.asm"
 INCLUDE "strings.asm"
+
+PRINTV handleControls - start

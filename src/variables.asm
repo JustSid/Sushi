@@ -28,6 +28,8 @@ LevelData: ds 9 * 9 ; Live Level data
 ; 3 = Level 3 Fish
 ; 9 = Player Fish
 
+.end:
+
 CursorX: ds 1 ; The wave cursor x position
 CursorY: ds 1 ; The wave cursor y position
 CursorAddress: ds 2 ; Cursor tile address
