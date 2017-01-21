@@ -93,14 +93,19 @@ sendWaveRight:
 	ld a, 4
 	sub b
 
+	ld b, a
+	push bc
+
 	ld b, 0
 	ld c, a
 	add hl, bc
 
+	pop bc
+
 	ld a, d
 	add b
 
-	cp a, 9
+	cp a, 10
 	jr nc, .fishOverflow
 
 	pop af
@@ -469,9 +474,9 @@ updateLevel:
 
 testLevel:
 	;         |          |
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 1, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 1, 0,   0, 0, 0
+	db 0, 0, 0,   0, 2, 0,   0, 0, 0
+	db 0, 0, 0,   0, 3, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
