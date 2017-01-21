@@ -41,10 +41,19 @@ init:
 	ld bc, tileDataEnd - tileData
 	call memcpy ; load tile data
 
+	; Clear screen
+	ld hl, _SCRN0
+	ld bc, 1024
+	ld a, 0
+	call memset
+
 	; Enable the LCD again
-	ld a, LCDCF_ON | LCDCF_BG8000 | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG9800 | LCDCF_BGON | LCDCF_OBJ16 | LCDCF_OBJON
+	ld a, LCDCF_ON | LCDCF_BG8000 | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG9800 | LCDCF_BGON | LCDCF_OBJ8 | LCDCF_OBJON
 	ld [displayMode], a
 	call enableLCD
+
+	ld hl, testLevel
+	call loadLevel
 
 	; Enable interrupts
 	ld a, 0

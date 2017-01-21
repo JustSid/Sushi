@@ -19,6 +19,16 @@ UIStringLength: ds 1 ; The remaining lines of the string
 
 UIStringTick: ds 1 ; The blinking caret timer
 
+; Level section
+PlayerLevel: ds 1 ; The fish level of the player
+LevelData: ds 9 * 9 ; Live Level data
+; 0 = Empty
+; 1 = Level 1 Fish
+; 2 = Level 2 Fish
+; 3 = Level 3 Fish
+; 9 = Player Fish
+
+; Misc
 __Scratch: ds 1
 
 VariablesEnd:

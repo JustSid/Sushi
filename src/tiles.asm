@@ -7,6 +7,8 @@ levelTiles:
 INCBIN "level"
 levelTilesEnd:
 
+fish: INCBIN "fish"
+
 font:
 ; ASCII has 32 elements per row, the font however only has 26
 INCBIN "font", 0, 26 * 16
