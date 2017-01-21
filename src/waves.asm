@@ -19,6 +19,8 @@ startWaveToRight:
 	ld a, [CursorY]
 	dec a
 	ld [WaveY], a
+
+	call playWaveSound
 	ret
 
 startWaveToLeft:
@@ -42,6 +44,8 @@ startWaveToLeft:
 	ld a, [CursorY]
 	dec a
 	ld [WaveY], a
+
+	call playWaveSound
 	ret
 
 startWaveToBottom:
@@ -65,6 +69,8 @@ startWaveToBottom:
 	ld a, [CursorX]
 	dec a
 	ld [WaveX], a
+
+	call playWaveSound
 	ret
 
 startWaveToTop:
@@ -88,6 +94,8 @@ startWaveToTop:
 	ld a, [CursorX]
 	dec a
 	ld [WaveX], a
+
+	call playWaveSound
 	ret
 
 
@@ -579,4 +587,16 @@ updateWaveToTop:
 
 	ld a, 0
 	ld [WaveType], a
+	ret
+
+
+playWaveSound:
+	ld a, %00000000
+	ld [rNR41], a
+	ld a, %11110011
+	ld [rNR42], a
+	ld a, %01010001
+	ld [rNR42_2], a
+	ld a, %10000110
+	ld [rNR43], a
 	ret
