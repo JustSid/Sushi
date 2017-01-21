@@ -13,6 +13,9 @@ updateControlTiles:
 	load CursorAddress, h, l
 	ld a, [CursorTileOld]
 	ld [hl], a
+	load CursorAddress2, h, l
+	ld a, [CursorTileOld2]
+	ld [hl], a
 
 	ld a, [CursorX]
 	and %11111011
@@ -45,7 +48,7 @@ updateControlTiles:
 	ld a, [CursorX]
 	cp 0
 	jr z, .skipRightBorderWrite
-	ld d, 2
+	ld d, 3
 	ld b, 0
 	ld c, 17
 	add hl, bc
@@ -57,6 +60,16 @@ updateControlTiles:
 	ld [hl], d
 	ld [CursorTileOld], a
 	store CursorAddress, h, l
+
+	inc d
+	ld b, 0
+	ld c, 32
+	add hl, bc
+	ld a, [hl]
+	ld [hl], d
+	ld [CursorTileOld2], a
+	store CursorAddress2, h, l
+
 	jr .end
 .skipLeftRightBorderWrite
 
@@ -80,11 +93,11 @@ updateControlTiles:
 	ld l, a
 	ld h, 0
 
-	ld d, 3
+	ld d, 5
 	ld a, [CursorY]
 	cp 0
 	jr z, .skipBottomBorderWrite
-	ld d, 4
+	ld d, 7
 	ld b, 2
 	ld c, 32
 	add hl, bc
@@ -96,6 +109,15 @@ updateControlTiles:
 	ld [hl], d
 	ld [CursorTileOld], a
 	store CursorAddress, h, l
+
+	inc d
+	ld b, 0
+	ld c, 1
+	add hl, bc
+	ld a, [hl]
+	ld [hl], d
+	ld [CursorTileOld2], a
+	store CursorAddress2, h, l
 .skipTopBottomBorderWrite
 .end
 	ret
@@ -126,7 +148,7 @@ loadLevel:
 
 
 PlaceFish: MACRO
-	ld a, \1
+	ld a, \1 + (fish-levelTiles)/16
 	ld [de], a
 	inc de
 
@@ -174,7 +196,7 @@ updateLevel:
 	jr nz, .skipFish1
 
 	; Fish Level 1
-	PlaceFish $10
+	PlaceFish $00
 	jr .loopCompare
 
 .skipFish1:
@@ -183,7 +205,7 @@ updateLevel:
 	jr nz, .skipFish2
 
 	; Fish Level 1
-	PlaceFish $11
+	PlaceFish $01
 	jr .loopCompare
 
 .skipFish2:
@@ -192,11 +214,11 @@ updateLevel:
 	jr nz, .skipFish3
 
 	; Fish Level 1
-	PlaceFish $12
+	PlaceFish $02
 	jr .loopCompare
 
 .skipFish3
-	PlaceFish $13 ; Player
+	PlaceFish $03 ; Player
 
 .loopCompare:
 	ld a, c
