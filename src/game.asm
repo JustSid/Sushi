@@ -43,7 +43,7 @@ updateGame:
 
 sendWaveRight:
 	; Calculate the offset into LevelData
-	ld hl, LevelData + 9
+	ld hl, LevelData + 8
 
 	ld a, 1
 	ld [WaveType], a
@@ -93,13 +93,14 @@ sendWaveRight:
 	ld a, 4
 	sub b
 
-	ld b, a
-	add16_8 h, l, b
+	ld b, 0
+	ld c, a
+	add hl, bc
 
 	ld a, d
 	add b
 
-	cp a, 10
+	cp a, 9
 	jr nc, .fishOverflow
 
 	pop af
@@ -355,8 +356,10 @@ ENDM
 
 ; Update the sprites to match the level data
 updateLevel:
-	ld hl, LevelData
+	ld a, 0
+	ld [__Scratch + 1], a
 
+	ld hl, LevelData
 	ld de, OAMBuffer
 
 	ld b, 9 * 9
@@ -373,6 +376,10 @@ updateLevel:
 	jr z, .loopCompare ; No fish, no problem!
 
 	push af
+
+	ld a, [__Scratch + 1]
+	inc a
+	ld [__Scratch + 1], a
 
 	; Prepare the common sprite attributes (X and Y position)
 	; Y Position
@@ -434,14 +441,37 @@ updateLevel:
 	dec b
 	jr nz, .loop
 
+	; Zero out the remaining sprites
+	ld a, [__Scratch + 1]
+	ld b, a
+	ld a, 10
+	sub b
+	jr z, .end
+
+	ld b, a
+	ld a, 0
+
+	ld h, d
+	ld l, e
+
+.loopRemoveSprites:
+	ld [hl+], a
+	ld [hl+], a
+	ld [hl+], a
+
+	dec b
+	jr nz, .loopRemoveSprites
+
+.end:
+
 	ret
 
 
 testLevel:
 	;         |          |
-	db 0, 0, 0,   3, 0, 0,   0, 0, 0
-	db 0, 0, 0,   3, 0, 0,   0, 0, 0
-	db 0, 0, 0,   3, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 1, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
