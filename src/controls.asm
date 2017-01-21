@@ -4,10 +4,7 @@ __CONTROLS_ASM__ SET 1
 handleControls:
 	push af
 
-	ld a, [CursorX]
-	ld [CursorPreviousX], a
 	ld a, [CursorY]
-	ld [CursorPreviousY], a
 	ld b, a
 
 	ld a, [Input_Once]

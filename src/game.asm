@@ -10,85 +10,8 @@ updateGame:
 
 
 updateControlTiles:
-	ld a, [CursorPreviousX]
-	and %11111011
-	jr nz, .skipLeftRightBorder
-	ld a, [CursorPreviousY]
-
-	cp 0
-	jr z, .skipDec0
-	dec a ; change from 1-3 to 0 to 2 range
-.skipDec0:
-
-	; a = a*6+2 to get to the top center of the row
-	ld b, a
-	add b
-	add b
-	add a
-	add 2
-
-	; store y coordinate in hl register
-	ld l, a
-	ld h, 0
-
-	; shift hl five times to the left (*32) -> (y tile index) * 32 tiles per line
-	shiftLeft h, l
-	shiftLeft h, l
-	shiftLeft h, l
-	shiftLeft h, l
-	shiftLeft h, l
-
-	ld a, [CursorPreviousX]
-	cp 0
-	jr nz, .skipRightBorder
-	ld b, 0
-	ld c, 19
-	add hl, bc
-.skipRightBorder
-
-	ld bc, _SCRN0
-	add hl, bc
+	load CursorAddress, h, l
 	ld [hl], 0
-
-	jr .endReset
-.skipLeftRightBorder
-
-	ld a, [CursorPreviousY]
-	and %11111011
-	jr nz, .skipTopBottomBorder
-	ld a, [CursorPreviousX]
-
-	cp 0
-	jr z, .skipDec1
-	dec a ; change from 1-3 to 0 to 2 range
-.skipDec1
-
-	; a = a*6+2 to get to the left center of the column
-	ld b, a
-	add b
-	add b
-	add a
-	add 2
-
-	; store y coordinate in hl register
-	ld l, a
-	ld h, 0
-
-	ld a, [CursorPreviousY]
-	cp 0
-	jr nz, .skipBottomBorder
-	ld b, 2
-	ld c, 32
-	add hl, bc
-.skipBottomBorder
-
-	ld bc, _SCRN0
-	add hl, bc
-	ld [hl], 0
-.skipTopBottomBorder
-.endReset
-
-
 
 	ld a, [CursorX]
 	and %11111011
@@ -132,6 +55,8 @@ updateControlTiles:
 	add hl, bc
 	ld [hl], d
 
+	store CursorAddress, h, l
+
 	jr .end
 .skipLeftRightBorderWrite
 
@@ -169,6 +94,8 @@ updateControlTiles:
 	ld bc, _SCRN0
 	add hl, bc
 	ld [hl], d
+
+	store CursorAddress, h, l
 .skipTopBottomBorderWrite
 .end
 	ret
