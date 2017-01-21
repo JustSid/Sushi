@@ -29,6 +29,11 @@ _HRAM         EQU  $F800 ; $F800->$FFFE
 _OAMRAM       EQU  $FE00 ; $FE00->$FE9F
 _AUD3WAVERAM  EQU  $FF30 ; $FF30->$FF3F
 
+; *** MBC5 Equates ***
+rRAMG        EQU $0000 ; $0000->$1fff
+rROMB0       EQU $2000 ; $2000->$2fff
+rROMB1       EQU $3000 ; $3000->$3fff - If more than 256 ROM banks are present.
+rRAMB        EQU $4000 ; $4000->$5fff - Bit 3 enables rumble (if present)
 
 ; --
 ; -- OAM flags

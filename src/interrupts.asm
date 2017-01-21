@@ -48,7 +48,6 @@ timeHandler:
 	push de
 	push hl
 
-	;play music
 
 
 .exit:

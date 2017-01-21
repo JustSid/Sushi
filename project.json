@@ -3,11 +3,15 @@
 		{
 			"name": "sushi",
 			"files": [
-				"src/main.asm"
+				"src/main.asm",
+			  	"vendor/audio/gbt_player.asm",
+			  	"vendor/audio/gbt_player_bank1.asm",
+			  	"resources/song.asm"
 			],
 			"includes": [
 				"./src/",
-				"./src/includes/"
+				"./src/includes/",
+			  	"./vendor/audio/"
 			],
 			"resources": [
 				"./resources/font.png",

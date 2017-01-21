@@ -1,7 +1,10 @@
 INCLUDE "gbhw.inc"
+INCLUDE "gbt_player.inc"
 INCLUDE "interrupts.asm"
 INCLUDE "variables.asm"
 INCLUDE "macros.asm"
+
+GLOBAL song_data
 
 SECTION	"start",HOME[$0100]
 	nop
@@ -58,7 +61,7 @@ init:
 	; Enable interrupts
 	ld a, 0
 	ld [rIF], a ; Set the interrupt pending flags to 0
-	ld a, %00000111
+	ld a, %00000011
 	ld [rIE], a ; Unmask all interrupts
 	ei ; Enable interrupts
 
@@ -67,6 +70,12 @@ init:
 	ld [rTMA], a
 	ld a, %00000100
 	ld [rTAC], a
+
+	; Play music
+	ld de, song_data
+	ld bc, BANK(song_data)
+	ld a, $05
+	call gbt_play
 
 	; Go to main loop
 	jp main
@@ -82,6 +91,8 @@ main:
 
 	xor a
 	ld [rSTAT], a
+
+	call gbt_update ; Update music player
 
 	; Get to the next frame
 	; Process input
