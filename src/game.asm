@@ -18,11 +18,20 @@ updateGame:
 	bit 4, a
 	jr z, .end
 
+	; Horizontal Waves
 	ld a, [CursorX]
 	jpCorner .horizontalWave
 
 .verticalWave:
-	call startWaveToTop
+	ld a, [CursorY]
+	cp a, 0
+
+	jr z, .down
+
+	call sendWaveUp
+	jr .end
+
+.down:
 	jr .end
 
 .horizontalWave:
@@ -38,6 +47,99 @@ updateGame:
 
 .end:
 	call updateLevel
+	ret
+
+
+
+sendWaveUp:
+	call startWaveToTop
+
+	; Calculate the offset into LevelData
+	ld hl, LevelData
+
+	ld a, 3
+	ld [__Scratch], a
+
+	ld a, [CursorX]
+	dec a
+	jr z, .copyColumns
+
+	ld b, 0
+	ld c, 3
+
+.loopOffset:
+	add hl, bc
+	dec a
+	jr nz, .loopOffset
+
+.copyColumns
+
+	push hl
+	ld d, 9
+.loop:
+	ld a, [hl]
+
+	cp a, 0
+	jr z, .fishEnd
+
+	; Remove the fish
+	ld b, a
+	ld a, 0
+	ld [hl], a
+	ld a, b
+
+	push hl
+	push af
+
+	ld a, 4
+	sub b
+
+	ld e, a
+
+	; Check if the fish reached the end
+	ld a, d
+	add e
+
+	cp a, 10
+	jr nc, .fishOverflow
+
+.subtractRows:
+	sub16_8 h, l, 9
+	dec e
+	jr nz, .subtractRows
+
+	; Write the fish into its new row
+	pop af
+	ld [hl], a
+
+	pop hl
+
+.fishEnd:
+	ld bc, 9
+	add hl, bc
+
+	dec d
+	jr nz, .loop
+
+
+	pop hl
+
+	ld a, [__Scratch]
+	dec a
+	jr z, .exit
+
+	ld [__Scratch], a
+	inc hl
+
+	jr .copyColumns
+
+.fishOverflow:
+	pop af
+	pop hl
+
+	jr .fishEnd
+
+.exit:
 	ret
 
 
@@ -489,16 +591,16 @@ updateLevel:
 
 testLevel:
 	;         |          |
-	db 0, 0, 0,   0, 1, 0,   0, 0, 0
-	db 0, 0, 0,   0, 2, 0,   0, 0, 0
-	db 0, 0, 0,   0, 3, 0,   0, 0, 0 ; ----
-
-	db 0, 0, 0,   0, 3, 0,   0, 0, 0
-	db 0, 0, 0,   0, 2, 0,   0, 0, 0
-	db 0, 0, 0,   0, 1, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 1, 0,   0, 0, 0
-	db 0, 0, 0,   0, 2, 0,   0, 0, 0
-	db 0, 0, 0,   0, 3, 0,   0, 0, 0
+	db 1, 2, 3,   2, 0, 3,   1, 2, 3
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
 ENDC
