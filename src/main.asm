@@ -35,8 +35,8 @@ init:
 	; Zero out BSS section
 	ld a, 0
 	ld hl, VariablesBegin
-	ld c, VariablesEnd - VariablesBegin
-	call memset_quick
+	ld bc, VariablesEnd - VariablesBegin
+	call memset
 
 	; Load background tiles
 	ld de, _VRAM ; $8000
@@ -45,7 +45,7 @@ init:
 	call memcpy ; load tile data
 
 	; Clear screen
-	ld hl, _SCRN0
+	ld hl, Backbuffer
 	ld bc, 1024
 	ld a, 0
 	call memset

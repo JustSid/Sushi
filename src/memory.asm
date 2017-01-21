@@ -69,4 +69,61 @@ memcpy_quick:
 	jr nz, .loop
 	ret
 
+
+; hl = source address
+; de = destination address
+; b = rows
+; c = columns
+; [BlitRowLength] = The length of one row
+blit:
+	push hl
+
+	; Calculate the effective offset (BlitRowLength - columns)
+	ld a, [BlitRowLength + 0]
+	ld h, a
+	ld a, [BlitRowLength + 1]
+	ld l, a
+
+	sub c
+	ld [BlitRowLength + 1], a
+
+	ld a, h
+	sbc 0 ; The "high" byte of this subtraction is always zero since columns is 1 byte
+	ld [BlitRowLength + 0], a
+
+	pop hl
+
+.copyRow:
+	push bc
+
+.copyRowLoop:
+	ld a, [hl+]
+	ld [de], a
+	inc de
+
+	dec c ; Check if we have copied enough bytes
+	jr nz, .copyRowLoop
+
+	; restore bc and check if we have copied enough rows
+	pop bc
+	dec b
+	jr z, .exit
+
+	; Increment hl by the row length
+	push bc
+
+	ld a, [BlitRowLength + 0]
+	ld b, a
+	ld a, [BlitRowLength + 1]
+	ld c, a
+	add hl, bc
+
+	pop bc
+
+	jr .copyRow
+
+.exit:
+	ret
+
+
 ENDC

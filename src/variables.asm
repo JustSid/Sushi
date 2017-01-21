@@ -28,6 +28,8 @@ LevelData: ds 9 * 9 ; Live Level data
 ; 3 = Level 3 Fish
 ; 9 = Player Fish
 
+Backbuffer: ds 20 * 18 ; The back buffer mirror of _SCRN0
+
 CursorX: ds 1 ; The wave cursor x position
 CursorY: ds 1 ; The wave cursor y position
 CursorPreviousX: ds 1 ; The previous wave cursor x position
@@ -35,8 +37,13 @@ CursorPreviousY: ds 1 ; The previous wave cursor y position
 
 ; Misc
 __Scratch: ds 1
+BlitRowLength: ds 2 ; Used with the blit function
 
 VariablesEnd:
+
+PRINTT "BSS Section: "
+PRINTV VariablesEnd - VariablesBegin
+PRINTT "\n"
 
 POPS
 
