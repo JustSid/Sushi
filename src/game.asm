@@ -22,6 +22,7 @@ updateGame:
 	jpCorner .horizontalWave
 
 .verticalWave:
+	call startWaveToTop
 	jr .end
 
 .horizontalWave:
@@ -42,17 +43,13 @@ updateGame:
 
 
 sendWaveRight:
+	call startWaveToRight
+
 	; Calculate the offset into LevelData
 	ld hl, LevelData + 8
 
-	ld a, 1
-	ld [WaveType], a
-	ld a, 0
-	ld [WaveX], a
-
 	ld a, [CursorY]
 	dec a
-	ld [WaveY], a
 
 	jr z, .loopEnd
 	ld bc, 27
@@ -139,17 +136,13 @@ sendWaveRight:
 
 
 sendWaveLeft:
+	call startWaveToLeft
+
 	; Calculate the offset into LevelData
 	ld hl, LevelData
 
-	ld a, 2
-	ld [WaveType], a
-	ld a, 17
-	ld [WaveX], a
-
 	ld a, [CursorY]
 	dec a
-	ld [WaveY], a
 
 	jr z, .loopEnd
 	ld bc, 27
