@@ -593,7 +593,7 @@ updateWaveToTop:
 playWaveSound:
 	ld a, %00000000
 	ld [rNR41], a
-	ld a, %11110011
+	ld a, %10000111
 	ld [rNR42], a
 	ld a, %01010001
 	ld [rNR42_2], a
