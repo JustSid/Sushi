@@ -101,6 +101,8 @@ sendWaveDown:
 	ld a, 4
 	sub b
 
+	call z, getPlayerSpeed
+
 	ld e, a
 
 	; Check if the fish reached the end
@@ -198,6 +200,8 @@ sendWaveUp:
 
 	ld a, 4
 	sub b
+
+	call z, getPlayerSpeed
 
 	ld e, a
 
@@ -303,6 +307,8 @@ sendWaveRight:
 	ld a, 4
 	sub b
 
+	call z, getPlayerSpeed
+
 	ld b, a
 	push bc
 
@@ -400,6 +406,8 @@ sendWaveLeft:
 	ld b, a
 	ld a, 4
 	sub b
+
+	call z, getPlayerSpeed
 
 	ld b, a
 	push bc
@@ -610,6 +618,13 @@ loadLevel:
 	ld a, 0
 	ld [CursorY], a
 
+	; Set the player data back
+	ld a, 2
+	ld [PlayerSpeed], a
+	ld [PlayerLevel], a
+	ld a, 0
+	ld [PlayerFishCounter], a
+
 	; Copy the level data into RAM
 	push hl
 
@@ -733,18 +748,22 @@ updateLevel:
 
 	ret
 
+getPlayerSpeed:
+	ld a, [PlayerSpeed]
+	ret
+
 
 testLevel:
 	;         |          |
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   2, 0, 0,   0, 0, 0 ; ----
+
+	db 0, 0, 0,   0, 0, 0,   0, 3, 0
+	db 0, 0, 0,   0, 4, 1,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
-
-	db 0, 1, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 1,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
