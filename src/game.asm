@@ -481,6 +481,9 @@ calculateFishFeeding:
 
 	pop af
 
+	cp a, 4
+	jr z, .calculatePlayerFeeding
+
 	cp a, 3
 	jr z, .abort
 
@@ -490,6 +493,39 @@ calculateFishFeeding:
 .abortEmptyValue:
 	pop af
 .abort:
+	ret
+
+.calculatePlayerFeeding:
+
+	ld a, [PlayerLevel]
+	cp a, b
+	jr nc, .playerWon
+
+
+.playerWon:
+	ld a, [PlayerFishCounter]
+	inc a
+	ld [PlayerFishCounter], a
+
+	cp a, 2
+	jr nz, .exit
+
+	ld a, 0
+	ld [PlayerFishCounter], a
+
+	ld a, [PlayerLevel] ; Inrease the player level if we haven't reached the level cap yet
+	cp a, 3
+	jr z, .exit
+
+	inc a
+	ld [PlayerLevel], a
+
+	ld a, [PlayerSpeed]
+	dec a
+	ld [PlayerSpeed], a
+
+.exit:
+	ld a, 4
 	ret
 
 

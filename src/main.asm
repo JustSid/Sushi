@@ -140,4 +140,4 @@ INCLUDE "strings.asm"
 INCLUDE "waves.asm"
 INCLUDE "ingameui.asm"
 
-PRINTV updateLevel - start
+PRINTV calculateFishFeeding - start
