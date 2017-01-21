@@ -6,8 +6,88 @@ updateGame:
 	call handleControls
 	call updateControlTiles
 
+	ld a, [Input_Once]
+	bit 4, a
+	jr z, .end
+
+	call sendWaveRight
+
+	call updateLevel
+
+.end:
+
 	ret
 
+sendWaveRight:
+	; Calculate the offset into LevelData
+	ld hl, LevelData + 8
+
+	ld a, [CursorY]
+	dec a
+
+	jr z, .loopEnd
+	ld bc, 27
+
+.loop:
+	dec a
+	add hl, bc
+	jr nz, .loop
+.loopEnd:
+
+
+
+	ld a, 3
+
+.copyRowLoop:
+	push af
+
+	; Go over the columns
+	ld b, 9
+
+.loopColumn:
+	push bc
+
+	ld a, [hl]
+	or a
+	jr z, .fishEnd ; No fish in that column
+
+	; Remove the fish from the position
+	ld b, a
+	ld a, 0
+	ld [hl], a
+	ld a, b
+
+	push hl
+	push af
+
+	; Calculate how far the fish has to move
+	ld b, a
+	ld a, 3
+	sub b
+
+	ld b, a
+	add16_8 h, l, b
+
+	pop af
+
+	ld [hl], a ; Put the fish into its new position
+
+	pop hl
+
+.fishEnd:
+	pop bc
+
+	dec hl
+	dec b
+	jr nz, .loopColumn
+
+	add16_8 h, l, 17 ; 9 + 8
+
+	pop af
+	dec a
+	jr nz, .copyRowLoop
+
+	ret
 
 updateControlTiles:
 	load CursorAddress, h, l
@@ -243,7 +323,7 @@ updateLevel:
 
 testLevel:
 	;         |          |
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 1, 1, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   2, 0, 0,   0, 0, 0 ; ----
 
@@ -253,6 +333,6 @@ testLevel:
 
 	db 0, 0, 1,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 1, 0, 0,   0, 0, 0,   0, 0, 0
 
 ENDC

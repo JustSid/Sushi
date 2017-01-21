@@ -130,12 +130,12 @@ enableLCD:
 
 
 INCLUDE "controls.asm"
+INCLUDE "game.asm"
 INCLUDE "oam.asm"
 INCLUDE "memory.asm"
 INCLUDE "input.asm"
 INCLUDE "tiles.asm"
-INCLUDE "game.asm"
 INCLUDE "ui.asm"
 INCLUDE "strings.asm"
 
-PRINTV handleControls - start
+PRINTV sendWaveRight - start

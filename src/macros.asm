@@ -33,4 +33,24 @@ shiftLeft: MACRO
 
 ENDM
 
+sub16_8: MACRO
+	ld a, \2
+	sub \3
+	ld \2, a
+
+	ld a, \1
+	sbc 0
+	ld \1, a
+ENDM
+add16_8: MACRO
+	ld a, \2
+	add \3
+	ld \2, a
+
+	ld a, \1
+	adc 0
+	ld \1, a
+ENDM
+
+
 ENDC
