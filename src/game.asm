@@ -14,7 +14,11 @@ updateControlTiles:
 	and %11111011
 	jr nz, .skipLeftRightBorder
 	ld a, [CursorPreviousY]
+
+	cp 0
+	jr z, .skipDec0
 	dec a ; change from 1-3 to 0 to 2 range
+.skipDec0:
 
 	; a = a*6+2 to get to the top center of the row
 	ld b, a
@@ -53,9 +57,13 @@ updateControlTiles:
 	and %11111011
 	jr nz, .skipTopBottomBorder
 	ld a, [CursorPreviousX]
-	dec a ; change from 1-3 to 0 to 2 range
 
-	; a = a*6+2 to get to the top center of the row
+	cp 0
+	jr z, .skipDec1
+	dec a ; change from 1-3 to 0 to 2 range
+.skipDec1
+
+	; a = a*6+2 to get to the left center of the column
 	ld b, a
 	add b
 	add b
@@ -86,7 +94,11 @@ updateControlTiles:
 	and %11111011
 	jr nz, .skipLeftRightBorderWrite
 	ld a, [CursorY]
+
+	cp 0
+	jr z, .skipDec2
 	dec a ; change from 1-3 to 0 to 2 range
+.skipDec2
 
 	; a = a*6+2 to get to the top center of the row
 	ld b, a
@@ -127,9 +139,13 @@ updateControlTiles:
 	and %11111011
 	jr nz, .skipTopBottomBorderWrite
 	ld a, [CursorX]
-	dec a ; change from 1-3 to 0 to 2 range
 
-	; a = a*6+2 to get to the top center of the row
+	cp 0
+	jr z, .skipDec3
+	dec a ; change from 1-3 to 0 to 2 range
+.skipDec3
+
+	; a = a*6+2 to get to the left center of the column
 	ld b, a
 	add b
 	add b
@@ -156,6 +172,7 @@ updateControlTiles:
 .skipTopBottomBorderWrite
 .end
 	ret
+
 
 ; Loads a level
 ; hl = level address
