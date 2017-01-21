@@ -37,6 +37,12 @@ CursorAddress2: ds 2 ; Cursor tile address
 CursorTileOld: ds 1 ; Previous tile before cursor was there
 CursorTileOld2: ds 1 ; Previous tile before cursor was there
 
+WaveTilesOld: ds 6 ; Wave background tiles
+WaveX: ds 1 ; Wave x position
+WaveY: ds 1 ; Wave y position
+WaveType: ds 1 ; Wave type, 0 no wave, 1 left to right, 2 right to left, 3 top to bottom, 4 bottom to top
+WaveUpdateCounter: ds 1 ; Used to update only every nth frame
+
 ; Misc
 __Scratch: ds 1
 

@@ -5,9 +5,15 @@ INCLUDE "controls.asm"
 
 updateGame:
 
-	call handleControls
+	ld a, [WaveType]
+	cp 0
+	call z, handleControls
 	call updateControlTiles
+	call updateWave
 
+	ld a, [WaveType]
+	cp 0
+	jr nz, .end
 	ld a, [Input_Once]
 	bit 4, a
 	jr z, .end
@@ -33,12 +39,17 @@ updateGame:
 	call updateLevel
 	ret
 
+
+
 sendWaveRight:
 	; Calculate the offset into LevelData
 	ld hl, LevelData + 8
 
+	ld a, 1
+	ld [WaveType], a
 	ld a, [CursorY]
 	dec a
+	ld [WaveY], a
 
 	jr z, .loopEnd
 	ld bc, 27

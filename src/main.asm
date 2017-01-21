@@ -137,5 +137,6 @@ INCLUDE "input.asm"
 INCLUDE "tiles.asm"
 INCLUDE "ui.asm"
 INCLUDE "strings.asm"
+INCLUDE "waves.asm"
 
-PRINTV updateGame - start
+PRINTV updateWave - start
