@@ -636,8 +636,20 @@ ENDM
 
 ; Update the sprites to match the level data
 updateLevel:
+	ld b, 40
+	ld hl, OAMBuffer
+
 	ld a, 0
-	ld [__Scratch + 1], a
+
+.zeroOAM
+	ld [hl+], a
+	ld [hl+], a
+	inc hl
+	inc hl
+
+	dec b
+	jr nz, .zeroOAM
+
 
 	ld hl, LevelData
 	ld de, OAMBuffer
@@ -656,10 +668,6 @@ updateLevel:
 	jr z, .loopCompare ; No fish, no problem!
 
 	push af
-
-	ld a, [__Scratch + 1]
-	inc a
-	ld [__Scratch + 1], a
 
 	; Prepare the common sprite attributes (X and Y position)
 	; Y Position
@@ -721,27 +729,6 @@ updateLevel:
 	dec b
 	jr nz, .loop
 
-	; Zero out the remaining sprites
-	ld a, [__Scratch + 1]
-	ld b, a
-	ld a, 10
-	sub b
-	jr z, .end
-
-	ld b, a
-	ld a, 0
-
-	ld h, d
-	ld l, e
-
-.loopRemoveSprites:
-	ld [hl+], a
-	ld [hl+], a
-	ld [hl+], a
-
-	dec b
-	jr nz, .loopRemoveSprites
-
 .end:
 
 	ret
@@ -754,10 +741,10 @@ testLevel:
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
 
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 1,   2, 3, 0,   0, 0, 0
-	db 0, 0, 0,   0, 2, 0,   0, 0, 0 ; ----
-
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+
+	db 0, 1, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
