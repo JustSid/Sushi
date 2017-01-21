@@ -169,11 +169,12 @@ sendWaveLeft:
 	ld b, 9
 
 .loopColumn:
-	push bc
-
 	ld a, [hl]
 	or a
 	jr z, .fishEnd ; No fish in that column
+
+	ld d, b
+	push bc
 
 	; Remove the fish from the position
 	ld b, a
@@ -190,17 +191,27 @@ sendWaveLeft:
 	sub b
 
 	ld b, a
+	push bc
+
+	ld b, a
 	sub16_8 h, l, b
+
+	pop bc
+
+	ld a, d
+	add b
+
+	cp a, 10
+	jr nc, .fishOverflow
 
 	pop af
 
 	ld [hl], a ; Put the fish into its new position
 
 	pop hl
-
-.fishEnd:
 	pop bc
 
+.fishEnd:
 	inc hl
 	dec b
 	jr nz, .loopColumn
@@ -208,8 +219,19 @@ sendWaveLeft:
 	pop af
 	dec a
 	jr nz, .copyRowLoop
+	jr .exit
 
+.fishOverflow:
+	pop af
+	pop hl
+	pop bc
+
+	jr .fishEnd
+
+.exit:
 	ret
+
+
 
 updateControlTiles:
 	load CursorAddress, h, l
@@ -478,12 +500,12 @@ testLevel:
 	db 0, 0, 0,   0, 2, 0,   0, 0, 0
 	db 0, 0, 0,   0, 3, 0,   0, 0, 0 ; ----
 
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0 ; ----
+	db 0, 0, 0,   0, 3, 0,   0, 0, 0
+	db 0, 0, 0,   0, 2, 0,   0, 0, 0
+	db 0, 0, 0,   0, 1, 0,   0, 0, 0 ; ----
 
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
-	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+	db 0, 0, 0,   0, 1, 0,   0, 0, 0
+	db 0, 0, 0,   0, 2, 0,   0, 0, 0
+	db 0, 0, 0,   0, 3, 0,   0, 0, 0
 
 ENDC
