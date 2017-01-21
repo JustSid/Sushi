@@ -46,7 +46,7 @@ updateControlTiles:
 	add hl, bc
 .skipRightBorder
 
-	ld bc, Backbuffer
+	ld bc, _SCRN0
 	add hl, bc
 	ld [hl], 0
 
@@ -82,7 +82,7 @@ updateControlTiles:
 	add hl, bc
 .skipBottomBorder
 
-	ld bc, Backbuffer
+	ld bc, _SCRN0
 	add hl, bc
 	ld [hl], 0
 .skipTopBottomBorder
@@ -128,7 +128,7 @@ updateControlTiles:
 	add hl, bc
 .skipRightBorderWrite
 
-	ld bc, Backbuffer
+	ld bc, _SCRN0
 	add hl, bc
 	ld [hl], d
 
@@ -166,7 +166,7 @@ updateControlTiles:
 	add hl, bc
 .skipBottomBorderWrite
 
-	ld bc, Backbuffer
+	ld bc, _SCRN0
 	add hl, bc
 	ld [hl], d
 .skipTopBottomBorderWrite

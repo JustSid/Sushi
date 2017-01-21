@@ -21,38 +21,25 @@ vblankHandler:
 	push af
 	call OAMFunction
 
+	ld a, [UIActive] ; Check if the UI is visible
+	or a
+	jr z, .exit
+
 	push bc
 	push de
 	push hl
 
-	call blitBackbuffer
-
-	ld a, [UIActive] ; Check if the UI is visible
-	or a
-	call nz, updateUI
+	call updateUI
 
 	pop hl
 	pop de
 	pop bc
+
+.exit:
 	pop af
 
 	reti
 
-blitBackbuffer:
-	ld hl, Backbuffer
-	ld de, _SCRN0
-
-	ld a, 0
-	ld [BlitRowLength + 0], a
-	ld a, 20
-	ld [BlitRowLength + 1], a
-
-	ld c, 20
-	ld b, 18
-
-	call blit
-
-	ret
 
 
 timeHandler:
