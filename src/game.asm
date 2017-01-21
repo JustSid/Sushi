@@ -10,6 +10,7 @@ updateGame:
 	call z, handleControls
 	call updateControlTiles
 	call updateWave
+	call updateIngameUI
 
 	ld a, [WaveType]
 	cp 0

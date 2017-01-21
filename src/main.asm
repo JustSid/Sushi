@@ -138,5 +138,6 @@ INCLUDE "tiles.asm"
 INCLUDE "ui.asm"
 INCLUDE "strings.asm"
 INCLUDE "waves.asm"
+INCLUDE "ingameui.asm"
 
 PRINTV sendWaveDown - start

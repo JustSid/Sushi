@@ -1,3 +1,6 @@
+IF !DEF(__WAVES_ASM__)
+__WAVES_ASM__ SET 1
+
 startWaveToRight:
 	ld a, 9
 	ld [WaveTilesOld+0], a
@@ -600,3 +603,5 @@ playWaveSound:
 	ld a, %10000110
 	ld [rNR43], a
 	ret
+
+ENDC
