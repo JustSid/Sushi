@@ -28,6 +28,11 @@ LevelData: ds 9 * 9 ; Live Level data
 ; 3 = Level 3 Fish
 ; 9 = Player Fish
 
+CursorX: ds 1 ; The wave cursor x position
+CursorY: ds 1 ; The wave cursor y position
+CursorPreviousX: ds 1 ; The previous wave cursor x position
+CursorPreviousY: ds 1 ; The previous wave cursor y position
+
 ; Misc
 __Scratch: ds 1
 

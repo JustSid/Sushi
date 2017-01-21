@@ -23,4 +23,14 @@ load: MACRO
 
 ENDM
 
+shiftLeft: MACRO
+
+	sla \1
+	sla \2
+	jr nc, .skipCarry\@
+	set 0, \1
+.skipCarry\@:
+
+ENDM
+
 ENDC
