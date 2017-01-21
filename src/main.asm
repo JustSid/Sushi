@@ -92,8 +92,6 @@ main:
 	xor a
 	ld [rSTAT], a
 
-	call gbt_update ; Update music player
-
 	; Get to the next frame
 	; Process input
 	call processInput
@@ -103,6 +101,7 @@ main:
 	or a
 
 	call z, updateGame
+	call gbt_update ; Update music player
 
 	jr main
 

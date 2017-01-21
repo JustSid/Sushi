@@ -19,9 +19,8 @@ updateControlTiles:
 	ld a, [CursorY]
 
 	cp 0
-	jr z, .skipDec2
+	jp z, .end
 	dec a ; change from 1-3 to 0 to 2 range
-.skipDec2
 
 	; a = a*6+2 to get to the top center of the row
 	ld b, a
@@ -44,7 +43,7 @@ updateControlTiles:
 	ld d, 1
 	ld a, [CursorX]
 	cp 0
-	jr nz, .skipRightBorderWrite
+	jr z, .skipRightBorderWrite
 	ld d, 2
 	ld b, 0
 	ld c, 19
@@ -56,7 +55,6 @@ updateControlTiles:
 	ld [hl], d
 
 	store CursorAddress, h, l
-
 	jr .end
 .skipLeftRightBorderWrite
 
@@ -66,9 +64,8 @@ updateControlTiles:
 	ld a, [CursorX]
 
 	cp 0
-	jr z, .skipDec3
+	jr z, .end
 	dec a ; change from 1-3 to 0 to 2 range
-.skipDec3
 
 	; a = a*6+2 to get to the left center of the column
 	ld b, a
@@ -84,7 +81,7 @@ updateControlTiles:
 	ld d, 3
 	ld a, [CursorY]
 	cp 0
-	jr nz, .skipBottomBorderWrite
+	jr z, .skipBottomBorderWrite
 	ld d, 4
 	ld b, 2
 	ld c, 32
