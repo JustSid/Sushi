@@ -32,6 +32,7 @@ updateGame:
 	jr .end
 
 .down:
+	call sendWaveDown
 	jr .end
 
 .horizontalWave:
@@ -47,6 +48,103 @@ updateGame:
 
 .end:
 	call updateLevel
+	ret
+
+
+sendWaveDown:
+	call startWaveToBottom
+
+	; Calculate the offset into LevelData
+	ld hl, LevelData
+
+	ld a, 3
+	ld [__Scratch], a
+
+	ld a, [CursorX]
+	dec a
+	jr z, .applyGeneralOffset
+
+	ld b, 0
+	ld c, 3
+
+.loopOffset:
+	add hl, bc
+	dec a
+	jr nz, .loopOffset
+
+
+.applyGeneralOffset
+	; Add 72 so we are at the bottom of everything
+	ld c, 72
+	add hl, bc
+
+.copyColumns
+
+	push hl
+	ld d, 9
+.loop:
+	ld a, [hl]
+
+	cp a, 0
+	jr z, .fishEnd
+
+	; Remove the fish
+	ld b, a
+	ld a, 0
+	ld [hl], a
+	ld a, b
+
+	push hl
+	push af
+
+	ld a, 4
+	sub b
+
+	ld e, a
+
+	; Check if the fish reached the end
+	ld a, d
+	add e
+
+	cp a, 10
+	jr nc, .fishOverflow
+
+.subtractRows:
+	add16_8 h, l, 9
+	dec e
+	jr nz, .subtractRows
+
+	; Write the fish into its new row
+	pop af
+	ld [hl], a
+
+	pop hl
+
+.fishEnd:
+	sub16_8 h, l, 9
+
+	dec d
+	jr nz, .loop
+
+
+	pop hl
+
+	ld a, [__Scratch]
+	dec a
+	jr z, .exit
+
+	ld [__Scratch], a
+	inc hl
+
+	jr .copyColumns
+
+.fishOverflow:
+	pop af
+	pop hl
+
+	jr .fishEnd
+
+.exit:
 	ret
 
 
