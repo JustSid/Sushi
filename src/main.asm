@@ -103,6 +103,8 @@ startGame:
 	ld bc, BANK(song_data)
 	ld a, $05
 	call gbt_play
+	ld a, 1
+	call gbt_loop
 
 	; Go to main loop
 	jp main
