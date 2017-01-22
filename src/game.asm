@@ -516,9 +516,6 @@ calculateFishFeeding:
 	cp a, 2
 	jr nz, .exit
 
-	ld a, 0
-	ld [PlayerFishCounter], a
-
 	ld a, [PlayerLevel] ; Inrease the player level if we haven't reached the level cap yet
 	cp a, 3
 	jr z, .exit

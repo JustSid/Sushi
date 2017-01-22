@@ -165,7 +165,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+0], a
-	ld a, 21
+	ld a, 17
 	ld [hl], a
 	add hl, bc
 
@@ -173,7 +173,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+1], a
-	ld a, 22
+	ld a, 18
 	ld [hl], a
 	add hl, bc
 
@@ -181,7 +181,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+2], a
-	ld a, 22
+	ld a, 18
 	ld [hl], a
 	add hl, bc
 
@@ -189,7 +189,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+3], a
-	ld a, 22
+	ld a, 18
 	ld [hl], a
 	add hl, bc
 
@@ -197,7 +197,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+4], a
-	ld a, 22
+	ld a, 18
 	ld [hl], a
 	add hl, bc
 
@@ -205,7 +205,7 @@ updateWaveToRight:
 	ld [hl+], a
 	ld a, [hl]
 	ld [WaveTilesOld+5], a
-	ld a, 23
+	ld a, 19
 	ld [hl], a
 
 	; Move wave one unit
@@ -285,7 +285,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+0], a
-	ld a, 24
+	ld a, 20
 	ld [hl], a
 	add hl, bc
 
@@ -293,7 +293,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+1], a
-	ld a, 25
+	ld a, 21
 	ld [hl], a
 	add hl, bc
 
@@ -301,7 +301,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+2], a
-	ld a, 25
+	ld a, 21
 	ld [hl], a
 	add hl, bc
 
@@ -309,7 +309,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+3], a
-	ld a, 25
+	ld a, 21
 	ld [hl], a
 	add hl, bc
 
@@ -317,7 +317,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+4], a
-	ld a, 25
+	ld a, 21
 	ld [hl], a
 	add hl, bc
 
@@ -325,7 +325,7 @@ updateWaveToLeft:
 	ld [hl-], a
 	ld a, [hl]
 	ld [WaveTilesOld+5], a
-	ld a, 26
+	ld a, 22
 	ld [hl], a
 
 	; Move wave one unit
@@ -417,32 +417,32 @@ updateWaveToBottom:
 
 	ld a, [hl]
 	ld [WaveTilesOld+0], a
-	ld a, 27
+	ld a, 23
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+1], a
-	ld a, 28
+	ld a, 24
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+2], a
-	ld a, 28
+	ld a, 24
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+3], a
-	ld a, 28
+	ld a, 24
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+4], a
-	ld a, 28
+	ld a, 24
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+5], a
-	ld a, 29
+	ld a, 25
 	ld [hl], a
 
 	; Move wave one unit
@@ -529,32 +529,32 @@ updateWaveToTop:
 
 	ld a, [hl]
 	ld [WaveTilesOld+0], a
-	ld a, 30
+	ld a, 26
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+1], a
-	ld a, 31
+	ld a, 27
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+2], a
-	ld a, 31
+	ld a, 27
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+3], a
-	ld a, 31
+	ld a, 27
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+4], a
-	ld a, 31
+	ld a, 27
 	ld [hl+], a
 
 	ld a, [hl]
 	ld [WaveTilesOld+5], a
-	ld a, 32
+	ld a, 28
 	ld [hl], a
 
 	; Move wave one unit
