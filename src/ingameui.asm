@@ -59,8 +59,6 @@ updateIngameUI:
 	jr .endLevel
 
 .levelgeq10:
-	cp 2
-	jr nz, .level03
 	ld hl, _SCRN0 + 32*17 + 18
 	ld a, 38
 	ld [hl+], a
