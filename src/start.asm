@@ -75,21 +75,29 @@ showTutorial01:
 
 	call memset
 
-	; Load the Left Side
-	ld hl, _SCRN0 + 1 + (3 * 32)
+	; Load the top part
+	ld hl, _SCRN0 + 3 + (4 * 32)
 	ld a, 1
-	ld c, 8
-	ld b, 11
+	ld c, 14
+	ld b, 2
 
 	call mapVRAMToScreen
 
-	; Load the right side
-
-	ld hl, _SCRN0 + 9 + (1 * 32)
-	ld c, 9
-	ld b, 16
+	; Load the middle part
+	ld hl, _SCRN0 + 3 + (7 * 32)
+	ld c, 16
+	ld b, 2
 
 	call mapVRAMToScreen
+
+
+	; Load the bottom part
+	ld hl, _SCRN0 + 2 + (11 * 32)
+	ld c, 16
+	ld b, 2
+
+	call mapVRAMToScreen
+
 
 	ld a, [displayMode]
 	call __enableLCD

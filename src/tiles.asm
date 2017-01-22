@@ -38,8 +38,9 @@ tutorial01ScreenData:
 db 0, 0, 0, 0, 0, 0, 0, 0
 db 0, 0, 0, 0, 0, 0, 0, 0
 
-INCBIN "tut1_left"
-INCBIN "tut1_right"
+INCBIN "tut2_top"
+INCBIN "tut2_mid"
+INCBIN "tut2_bottom"
 tutorial01ScreenDataEnd:
 
 
