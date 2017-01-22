@@ -571,6 +571,7 @@ checkLossCondition:
 	ld d, 9 * 9
 
 	ld b, 0 ; Level 1 fishes in the level
+	ld e, 0 ; 1 if the player was found
 
 .loop:
 	ld a, [hl+]
@@ -578,13 +579,21 @@ checkLossCondition:
 	jr z, .compareLoop
 
 	cp a, 1
-	jr nz, .compareLoop
-
+	jr nz, .checkForPlayer
 	inc b
+
+.checkForPlayer:
+	cp a, 4
+	jr nz, .compareLoop
+	
+	inc e
 
 .compareLoop:
 	dec d
 	jr nz, .loop
+
+	dec e ; e must be 1 (1 Player), so decrementing it will set the zero flag
+	jr nz, .lost
 
 	; Check the tally of level 1 fishes
 	ld a, b
@@ -596,6 +605,7 @@ checkLossCondition:
 	cp a, 3
 	jr z, .notLost
 
+.lost:
 	ld a, 2 ; Lost
 	ld [LevelWon], a
 
