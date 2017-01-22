@@ -38,6 +38,62 @@ mapVRAMToScreen:
 	ret
 
 
+__disableLCD:
+	di
+	call disableLCD
+
+	ret
+
+__enableLCD:
+	ld a, [displayMode]
+	call enableLCD
+
+	; Enable interrupts
+	ld a, 0
+	ld [rIF], a ; Set the interrupt pending flags to 0
+	ld a, %00000011
+	ld [rIE], a ; Unmask all interrupts
+	ei ; Enable interrupts
+
+	ret
+
+
+
+showTutorial01:
+	call __disableLCD
+
+	; Load background tiles
+	ld de, _VRAM ; $8000
+	ld hl, tutorial01ScreenData
+	ld bc, tutorial01ScreenDataEnd - tutorial01ScreenData
+	call memcpy ; load tile data
+
+	; Clear the screen
+	ld hl, _SCRN0
+	ld bc, 32 * 32
+	ld a, 0
+
+	call memset
+
+	; Load the Left Side
+	ld hl, _SCRN0 + 1 + (3 * 32)
+	ld a, 1
+	ld c, 8
+	ld b, 11
+
+	call mapVRAMToScreen
+
+	; Load the right side
+
+	ld hl, _SCRN0 + 9 + (1 * 32)
+	ld c, 9
+	ld b, 16
+
+	call mapVRAMToScreen
+
+	ld a, [displayMode]
+	call __enableLCD
+	ret
 
 showStartScreen:
 	; Load palette
@@ -80,17 +136,7 @@ showStartScreen:
 
 	call mapVRAMToScreen
 
-
-	ld a, LCDCF_ON | LCDCF_BG8000 | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG9800 | LCDCF_BGON | LCDCF_OBJ8 | LCDCF_OBJON
-	ld [displayMode], a
-	call enableLCD
-
-	; Enable interrupts
-	ld a, 0
-	ld [rIF], a ; Set the interrupt pending flags to 0
-	ld a, %00000011
-	ld [rIE], a ; Unmask all interrupts
-	ei ; Enable interrupts
+	call __enableLCD
 
 .loop:
 	halt
@@ -112,7 +158,14 @@ showStartScreen:
 	bit 4, a
 	jr z, .noInput
 
-	jp startGame
+	ld a, [tutorialMode]
+	or a
+
+	jp nz, startGame
+
+	inc a
+	ld [tutorialMode], a
+	call showTutorial01
 
 .noInput:
 	jr .loop

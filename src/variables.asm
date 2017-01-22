@@ -10,6 +10,7 @@ Input_Continuous: ds 1
 Input_Once: ds 1 ; $80 = Start, $40 = Select, $20 = B, $10 = A, $8 = Down, $4 = Up, $2 = Left, $1 = Right
 
 displayMode: ds 1
+tutorialMode: ds 1
 
 ; UI Section
 UIActive: ds 1 ;

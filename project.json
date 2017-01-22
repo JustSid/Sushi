@@ -20,7 +20,14 @@
 
 				"./resources/title.png",
 				"./resources/title_start.png",
-				"./resources/title_subtitle.png"
+				"./resources/title_subtitle.png",
+
+				"./resources/tut1_left.png",
+				"./resources/tut1_right.png",
+
+				"./resources/tut2_top.png",
+				"./resources/tut2_mid.png",
+				"./resources/tut2_bottom.png"
 			]
 		}
 	]
