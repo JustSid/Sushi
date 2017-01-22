@@ -22,12 +22,6 @@ init:
 	call initDMA
 	call initUI
 
-	; Load palette
-	ld a, %11100100
-	;ld a, %00011011
-	ld [rBGP], a
-	ld [rOBP0], a
-
 	; Zero the SCX and SCY position
 	ld a, 0
 	ld [rSCX], a
@@ -53,6 +47,12 @@ backToMenu:
 startGame:
 	di
 	call disableLCD
+
+	; Load palette
+	ld a, %11100100
+	;ld a, %11011000
+	ld [rBGP], a
+	ld [rOBP0], a
 
 	; Load background tiles
 	ld de, _VRAM ; $8000

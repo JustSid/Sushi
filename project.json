@@ -17,8 +17,10 @@
 				"./resources/font.png",
 				"./resources/level.png",
 				"./resources/fish.png",
-				"./resources/start.png",
-				"./resources/sushi.png"
+
+				"./resources/title.png",
+				"./resources/title_start.png",
+				"./resources/title_subtitle.png"
 			]
 		}
 	]

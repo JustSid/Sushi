@@ -40,6 +40,11 @@ mapVRAMToScreen:
 
 
 showStartScreen:
+	; Load palette
+	ld a, %11011000
+	ld [rBGP], a
+	ld [rOBP0], a
+
 	; Load background tiles
 	ld de, _VRAM ; $8000
 	ld hl, startScreenData
@@ -54,18 +59,24 @@ showStartScreen:
 	call memset
 
 	; Load the Sushi into the screen
-	ld hl, _SCRN0 + 6 + (4 * 32)
+	ld hl, _SCRN0 + 5 + (5 * 32)
 	ld a, 1
-	ld b, 3
-	ld c, 7
+	ld c, 10
+	ld b, 5
 
 	call mapVRAMToScreen
 
 	; Load the "Press A to start"
-	ld hl, _SCRN0 + 3 + (10 * 32)
-	ld a, 22
-	ld b, 2
-	ld c, 14
+	ld hl, _SCRN0 + 5 + (10 * 32)
+	ld c, 10
+	ld b, 3
+
+	call mapVRAMToScreen
+
+	; Add the GGJ 2017 logo
+	ld hl, _SCRN0 + 5 + (17 * 32)
+	ld c, 10
+	ld b, 1
 
 	call mapVRAMToScreen
 

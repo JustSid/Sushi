@@ -28,11 +28,9 @@ startScreenData:
 db 0, 0, 0, 0, 0, 0, 0, 0
 db 0, 0, 0, 0, 0, 0, 0, 0
 
-sushiTiles: INCBIN "sushi"
-sushiTilesEnd:
-
-startTitles: INCBIN "start"
-startTilesEnd:
+INCBIN "title"
+INCBIN "title_start"
+INCBIN "title_subtitle"
 startScreenDataEnd:
 
 
