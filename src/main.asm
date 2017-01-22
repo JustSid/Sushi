@@ -39,13 +39,19 @@ init:
 	ld c, VariablesEnd - VariablesBegin
 	call memset_quick
 
+	jp showStartScreen
+
+
+startGame:
+	di
+	call disableLCD
+
 	; Load background tiles
 	ld de, _VRAM ; $8000
 	ld hl, tileData
 	ld bc, tileDataEnd - tileData
 	call memcpy ; load tile data
 
-	; Clear screen
 	ld de, _SCRN0 ; $8000
 	ld hl, levelDataStart
 	ld bc, levelDataEnd - levelDataStart
@@ -54,8 +60,8 @@ init:
 	; Enable the LCD again
 	ld a, LCDCF_ON | LCDCF_BG8000 | LCDCF_WIN9C00 | LCDCF_WINOFF | LCDCF_BG9800 | LCDCF_BGON | LCDCF_OBJ8 | LCDCF_OBJON
 	ld [displayMode], a
-	call enableLCD
 
+	call enableLCD
 
 	ld hl, levelE01
 	store CurrentLevel, h, l
@@ -67,7 +73,6 @@ init:
 	ld [CursorY], a
 
 	call loadLevel
-
 
 	; Enable interrupts
 	ld a, 0
@@ -194,6 +199,7 @@ startNextLevel:
 	ret
 
 
+INCLUDE "start.asm"
 INCLUDE "controls.asm"
 INCLUDE "game.asm"
 INCLUDE "oam.asm"
@@ -206,4 +212,4 @@ INCLUDE "waves.asm"
 INCLUDE "ingameui.asm"
 INCLUDE "animations.asm"
 
-PRINTV checkWinCondition - start
+PRINTV mapVRAMToScreen - start

@@ -16,7 +16,9 @@
 			"resources": [
 				"./resources/font.png",
 				"./resources/level.png",
-				"./resources/fish.png"
+				"./resources/fish.png",
+				"./resources/start.png",
+				"./resources/sushi.png"
 			]
 		}
 	]

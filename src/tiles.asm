@@ -23,6 +23,18 @@ fontEnd:
 
 tileDataEnd:
 
+startScreenData:
+; Blank tile
+db 0, 0, 0, 0, 0, 0, 0, 0
+db 0, 0, 0, 0, 0, 0, 0, 0
+
+sushiTiles: INCBIN "sushi"
+sushiTilesEnd:
+
+startTitles: INCBIN "start"
+startTilesEnd:
+startScreenDataEnd:
+
 
 levelDataStart:
 	db 9, 13, 9, 13, 9, 10, 9, 13, 9, 13, 9, 10, 9, 13, 9, 13, 9, 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
