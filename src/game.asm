@@ -734,6 +734,24 @@ updateControlTiles:
 ; Loads a level
 ; hl = level address
 loadLevel:
+
+	di
+	call disableLCD
+
+	push hl
+
+	; Reload the level
+	ld de, _SCRN0 ; $8000
+	ld hl, levelDataStart
+	ld bc, levelDataEnd - levelDataStart
+	call memcpy ; load tile data
+
+	pop hl
+
+	ld a, [displayMode]
+	call enableLCD
+	ei
+
 	; Set the player data back
 	ld a, 2
 	ld [PlayerSpeed], a
