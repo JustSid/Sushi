@@ -782,8 +782,7 @@ PlaceFish: MACRO
 	inc de
 ENDM
 
-; Update the sprites to match the level data
-updateLevel:
+clearSprites:
 	ld b, 40
 	ld hl, OAMBuffer
 
@@ -798,6 +797,11 @@ updateLevel:
 	dec b
 	jr nz, .zeroOAM
 
+	ret
+
+; Update the sprites to match the level data
+updateLevel:
+	call clearSprites
 
 	ld hl, LevelData
 	ld de, OAMBuffer

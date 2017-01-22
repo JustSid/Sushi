@@ -14,6 +14,8 @@ levelIntro01:
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
+LevelEnd:
+
 
 levelIntro02:
 	;         |          |
@@ -255,7 +257,7 @@ levelE09:
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
-LevelEnd:
+;LevelEnd:
 
 
 __LevelEmpty:

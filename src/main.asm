@@ -46,6 +46,7 @@ backToMenu:
 	ld sp, $ffff
 
 	call disableLCD
+	call clearSprites
 
 	jp showStartScreen
 
