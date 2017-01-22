@@ -24,6 +24,7 @@ AnimationCounter: ds 1 ; Used to show the next animation frame every nth frame
 AnimationFrame: ds 1 ; The current animation frame shared by all fishes
 
 ; Level section
+CurrentLevel: ds 2 ; The address of the current level
 LevelWon: ds 1 ; 1 if the level is won
 PlayerFishCounter: ds 1 ; the number of fishes the player ate at the current size
 PlayerLevel: ds 1 ; The fish level of the player

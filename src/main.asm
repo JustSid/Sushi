@@ -56,7 +56,11 @@ init:
 	ld [displayMode], a
 	call enableLCD
 
-	ld hl, testLevel
+
+
+	ld hl, level01
+	store CurrentLevel, h, l
+
 	call loadLevel
 
 	; Enable interrupts
@@ -145,7 +149,12 @@ enableLCD:
 	ret
 
 startNextLevel:
-	ld hl, testLevel
+	load CurrentLevel, h, l
+	ld bc, 9 * 9
+
+	add hl, bc
+	store CurrentLevel, h, l
+
 	call loadLevel
 	ret
 
