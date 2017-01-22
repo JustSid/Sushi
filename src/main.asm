@@ -57,11 +57,17 @@ init:
 	call enableLCD
 
 
-
 	ld hl, levelE01
 	store CurrentLevel, h, l
 
+	; Set the cursor to the upper left corner
+	ld a, 1
+	ld [CursorX], a
+	ld a, 0
+	ld [CursorY], a
+
 	call loadLevel
+
 
 	; Enable interrupts
 	ld a, 0

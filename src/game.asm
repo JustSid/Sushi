@@ -585,7 +585,7 @@ checkLossCondition:
 .checkForPlayer:
 	cp a, 4
 	jr nz, .compareLoop
-	
+
 	inc e
 
 .compareLoop:
@@ -732,13 +732,6 @@ updateControlTiles:
 ; Loads a level
 ; hl = level address
 loadLevel:
-
-	; Set the cursor to the upper left corner
-	ld a, 1
-	ld [CursorX], a
-	ld a, 0
-	ld [CursorY], a
-
 	; Set the player data back
 	ld a, 2
 	ld [PlayerSpeed], a
