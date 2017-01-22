@@ -11,6 +11,7 @@ updateGame:
 	call updateControlTiles
 	call updateWave
 	call updateIngameUI
+	call updateAnimations
 
 	ld a, [WaveType]
 	cp 0
@@ -676,13 +677,45 @@ loadLevel:
 
 
 PlaceFish: MACRO
-	ld a, \1 + (fish-levelTiles)/16
+	push de
+	ld a, [AnimationFrame]
+	ld d, a
+	ld a, \1
+	cp 0
+	jr nz, .skipSmallFish\@
+	jr .skipSmallPlayer\@
+.skipSmallFish\@:
+	cp 1
+	jr nz, .skipMediumFish\@
+	sla d
+	ld a, 4
+	jr .skipSmallPlayer\@
+.skipMediumFish\@:
+	cp 2
+	jr nz, .skipFatFish\@
+	sla d
+	sla d
+	ld a, 12
+	jr .skipSmallPlayer\@
+.skipFatFish\@:
+	cp 3
+	jr nz, .skipSmallPlayer\@
+	sla d
+	sla d
+	ld a, 28
+	jr .skipSmallPlayer\@
+.skipSmallPlayer\@:
+
+	add a, (fish-levelTiles)/16
+	add a, d
+	pop de
 	ld [de], a
 	inc de
 
 	ld a, 0
 	ld [de], a
 	inc de
+
 ENDM
 
 ; Update the sprites to match the level data
@@ -716,7 +749,7 @@ updateLevel:
 	ld a, [hl+]
 
 	cp a, 0
-	jr z, .loopCompare ; No fish, no problem!
+	jp z, .loopCompare ; No fish, no problem!
 
 	push af
 
@@ -739,7 +772,7 @@ updateLevel:
 
 	; Fish Level 1
 	PlaceFish $00
-	jr .loopCompare
+	jp .loopCompare
 
 .skipFish1:
 	; Check for Fish Level 2
@@ -760,7 +793,7 @@ updateLevel:
 	jr .loopCompare
 
 .skipFish3
-	PlaceFish $05 ; Player
+	PlaceFish $03 ; Player
 
 .loopCompare:
 	ld a, c
@@ -778,7 +811,7 @@ updateLevel:
 
 .notFullLine:
 	dec b
-	jr nz, .loop
+	jp nz, .loop
 
 .end:
 

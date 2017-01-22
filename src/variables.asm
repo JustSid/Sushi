@@ -20,6 +20,7 @@ UIStringLength: ds 1 ; The remaining lines of the string
 UIStringTick: ds 1 ; The blinking caret timer
 
 AnimationCounter: ds 1 ; Used to show the next animation frame every nth frame
+AnimationFrame: ds 1 ; The current animation frame shared by all fishes
 
 ; Level section
 PlayerFishCounter: ds 1 ; the number of fishes the player ate at the current size

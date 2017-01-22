@@ -139,5 +139,6 @@ INCLUDE "ui.asm"
 INCLUDE "strings.asm"
 INCLUDE "waves.asm"
 INCLUDE "ingameui.asm"
+INCLUDE "animations.asm"
 
 PRINTV calculateFishFeeding - start
