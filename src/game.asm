@@ -759,13 +759,24 @@ loadLevel:
 	ret
 
 
-
+; sprite index, current animation offset, y position, x position, y offset, x offset
 PlaceFish: MACRO
+	push af
+	ld a, \3
+	add a, \5
+	ld [de], a
+	inc de
+
+	ld a, \4
+	add a, \6
+	ld [de], a
+	inc de
+	pop af
+
 	push de
 	ld d, \1
 	ld a, \2
 	add a, d
-
 	add a, (fish-levelTiles)/16
 	pop de
 	ld [de], a
@@ -774,7 +785,6 @@ PlaceFish: MACRO
 	ld a, 0
 	ld [de], a
 	inc de
-
 ENDM
 
 ; Update the sprites to match the level data
@@ -804,25 +814,23 @@ updateLevel:
 	ld a, 16
 	ld [__Scratch], a
 
+	push hl
 .loop:
+	pop hl
 	ld a, [hl+]
+	push hl
 
 	cp a, 0
 	jp z, .loopCompare ; No fish, no problem!
 
 	push af
-
 	; Prepare the common sprite attributes (X and Y position)
 	; Y Position
 	ld a, [__Scratch]
-	ld [de], a
-	inc de
+	ld h, a
 
 	; X Position
-	ld a, c
-	ld [de], a
-	inc de
-
+	ld l, c
 	pop af
 
 	; Check for Fish Level 1
@@ -831,7 +839,7 @@ updateLevel:
 
 	; Fish Level 1
 	ld a, [AnimationFrame]
-	PlaceFish 0, a
+	PlaceFish 0, a, h, l, 4, 4
 	jp .loopCompare
 
 .skipFish1:
@@ -842,26 +850,70 @@ updateLevel:
 	; Fish Level 2
 	ld a, [AnimationFrame]
 	sla a
-	PlaceFish 4, a
-	jr .loopCompare
+	push af
+	PlaceFish 4, a, h, l, 4, 0
+	pop af
+	PlaceFish 5, a, h, l, 4, 8
+	jp .loopCompare
 
 .skipFish2:
 	; Check for Fish Level 3
 	cp a, 3
-	jr nz, .skipFish3
+	jp nz, .skipFish3
 
 	; Fish Level 3
 	ld a, [AnimationFrame]
 	sla a
 	sla a
-	PlaceFish 12, a
-	jr .loopCompare
+	push af
+	PlaceFish 12, a, h, l, 0, 0
+	pop af
+	push af
+	PlaceFish 13, a, h, l, 0, 8
+	pop af
+	push af
+	PlaceFish 14, a, h, l, 8, 0
+	pop af
+	PlaceFish 15, a, h, l, 8, 8
+	jp .loopCompare
 
 .skipFish3
+	; Check for player Level 2
+	ld a, [PlayerLevel]
+	cp a, 2
+	jp nz, .skipSmallPlayer
+
 	ld a, [AnimationFrame]
 	sla a
 	sla a
-	PlaceFish 28, a ; Player
+	; Player
+	push af
+	PlaceFish 28, a, h, l, 0, 0
+	pop af
+	push af
+	PlaceFish 29, a, h, l, 0, 8
+	pop af
+	push af
+	PlaceFish 30, a, h, l, 8, 0
+	pop af
+	PlaceFish 31, a, h, l, 8, 8
+	jp .loopCompare
+
+.skipSmallPlayer
+	ld a, [AnimationFrame]
+	sla a
+	sla a
+	; Player
+	push af
+	PlaceFish 44, a, h, l, 0, 0
+	pop af
+	push af
+	PlaceFish 45, a, h, l, 0, 8
+	pop af
+	push af
+	PlaceFish 46, a, h, l, 8, 0
+	pop af
+	PlaceFish 47, a, h, l, 8, 8
 
 .loopCompare:
 	ld a, c
@@ -883,6 +935,7 @@ updateLevel:
 
 .end:
 
+	pop hl
 	ret
 
 getPlayerSpeed:
