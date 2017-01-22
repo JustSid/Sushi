@@ -2,6 +2,7 @@ IF !DEF(__GAME_ASM__)
 __GAME_ASM__ SET 1
 
 INCLUDE "controls.asm"
+INCLUDE "macros.asm"
 
 updateGame:
 
@@ -49,7 +50,11 @@ updateGame:
 	jr .end
 
 .end:
+
+
 	call updateLevel
+	call checkWinCondition
+
 	ret
 
 
@@ -527,6 +532,40 @@ calculateFishFeeding:
 
 .exit:
 	ld a, 4
+	ret
+
+checkWinCondition:
+
+	ld hl, LevelData
+	ld d, 9 * 9
+
+	ld b, 0 ; 1 and 2 level fishes in the level
+
+
+.loop:
+	ld a, [hl+]
+	cp a, 0
+	jr z, .compareLoop
+
+	cp a, 3
+	jr nc, .compareLoop
+
+	inc b
+
+.compareLoop:
+	dec d
+	jr nz, .loop
+
+
+	; Check the tally of level 2 fishes
+	ld a, b
+	cp a, 0
+	jr nz, .notWon
+
+	ld a, 1
+	ld [LevelWon], a
+
+.notWon:
 	ret
 
 

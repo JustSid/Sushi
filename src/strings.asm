@@ -16,6 +16,9 @@ STRING: MACRO
 
 
 
-stringTest:
-	STRING "Test"
-stringTestEnd:
+stringWon:
+	STRING "You won! Time to move on to the next challenge"
+stringWonEnd:
+stringLost:
+	STRING "You and your bloodline lost. Better luck next time"
+stringLostEnd:

@@ -85,7 +85,7 @@ showText:
 
 showMoreText:
 
-; Close the UI if the close flag is set
+	; Close the UI if the close flag is set
 	ld a, [UIStringLength]
 	or a
 	call z, hideUI
@@ -177,6 +177,22 @@ hideUI:
 	ld [displayMode], a
 
 	call enableLCD
+
+
+	load UICallBack, h, l
+
+	ld a, h
+	cp 0
+	jr z, .noCallback
+
+	ld a, l
+	cp 0
+	jr z, .noCallback
+
+	jp hl
+
+.noCallback
+
 	ret
 
 ; ------------

@@ -97,6 +97,22 @@ main:
 	; Process input
 	call processInput
 
+	ld a, [LevelWon]
+	or a
+	jr z, .skipLevelWon
+
+	ld hl, startNextLevel
+	store UICallBack, h, l
+
+	ld hl, stringWon
+	ld c, ((stringWonEnd - stringWon) / LineLength)
+	call showText
+	call showUI
+
+	ld a, 0
+	ld [LevelWon], a
+
+.skipLevelWon:
 	; If the UI is active, update the UI, otherwise update the game
 	ld a, [UIActive]
 	or a
@@ -128,6 +144,11 @@ enableLCD:
 	ld [rLCDC], a
 	ret
 
+startNextLevel:
+	ld hl, testLevel
+	call loadLevel
+	ret
+
 
 INCLUDE "controls.asm"
 INCLUDE "game.asm"
@@ -141,4 +162,4 @@ INCLUDE "waves.asm"
 INCLUDE "ingameui.asm"
 INCLUDE "animations.asm"
 
-PRINTV calculateFishFeeding - start
+PRINTV checkWinCondition - start

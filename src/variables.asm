@@ -18,11 +18,13 @@ UIString: ds 2 ; The address of the remaining UI text
 UIStringLength: ds 1 ; The remaining lines of the string
 
 UIStringTick: ds 1 ; The blinking caret timer
+UICallBack: ds 2 ; The function to jump to when the UI is closed
 
 AnimationCounter: ds 1 ; Used to show the next animation frame every nth frame
 AnimationFrame: ds 1 ; The current animation frame shared by all fishes
 
 ; Level section
+LevelWon: ds 1 ; 1 if the level is won
 PlayerFishCounter: ds 1 ; the number of fishes the player ate at the current size
 PlayerLevel: ds 1 ; The fish level of the player
 PlayerSpeed: ds 1 ; The speed of the player, 2 or 1
@@ -32,8 +34,6 @@ LevelData: ds 9 * 9 ; Live Level data
 ; 2 = Level 2 Fish
 ; 3 = Level 3 Fish
 ; 9 = Player Fish
-
-.end:
 
 CursorX: ds 1 ; The wave cursor x position
 CursorY: ds 1 ; The wave cursor y position
