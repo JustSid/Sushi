@@ -105,6 +105,10 @@ main:
 	or a
 	jr z, .skipLevelWon
 
+	cp a, 2
+	jr z, .levelLost
+
+.levelWon:
 	ld hl, startNextLevel
 	store UICallBack, h, l
 
@@ -115,6 +119,20 @@ main:
 
 	ld a, 0
 	ld [LevelWon], a
+	jr .skipLevelWon
+
+.levelLost:
+	ld hl, restartLevel
+	store UICallBack, h, l
+
+	ld hl, stringLost
+	ld c, ((stringLostEnd - stringLost) / LineLength)
+	call showText
+	call showUI
+
+	ld a, 0
+	ld [LevelWon], a
+
 
 .skipLevelWon:
 	; If the UI is active, update the UI, otherwise update the game
@@ -146,6 +164,12 @@ disableLCD:
 ; a must contain the display mode
 enableLCD:
 	ld [rLCDC], a
+	ret
+
+
+restartLevel:
+	load CurrentLevel, h, l
+	call loadLevel
 	ret
 
 startNextLevel:

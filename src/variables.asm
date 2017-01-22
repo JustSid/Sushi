@@ -25,9 +25,9 @@ AnimationFrame: ds 1 ; The current animation frame shared by all fishes
 
 ; Level section
 CurrentLevel: ds 2 ; The address of the current level
-LevelWon: ds 1 ; 1 if the level is won
+LevelWon: ds 1 ; 1 if the level is won, 2 if it's lost
 PlayerFishCounter: ds 1 ; the number of fishes the player ate at the current size
-PlayerLevel: ds 1 ; The fish level of the player
+PlayerLevel: ds 1 ; The fish level of the player (2 or 3)
 PlayerSpeed: ds 1 ; The speed of the player, 2 or 1
 LevelData: ds 9 * 9 ; Live Level data
 ; 0 = Empty

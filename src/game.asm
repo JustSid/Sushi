@@ -53,7 +53,9 @@ updateGame:
 
 
 	call updateLevel
+
 	call checkWinCondition
+	call checkLossCondition ; Check loss last so it takes precedence
 
 	ret
 
@@ -532,7 +534,6 @@ calculateFishFeeding:
 	ret
 
 checkWinCondition:
-
 	ld hl, LevelData
 	ld d, 9 * 9
 
@@ -564,6 +565,43 @@ checkWinCondition:
 
 .notWon:
 	ret
+
+checkLossCondition:
+	ld hl, LevelData
+	ld d, 9 * 9
+
+	ld b, 0 ; Level 1 fishes in the level
+
+.loop:
+	ld a, [hl+]
+	cp a, 0
+	jr z, .compareLoop
+
+	cp a, 1
+	jr nz, .compareLoop
+
+	inc b
+
+.compareLoop:
+	dec d
+	jr nz, .loop
+
+	; Check the tally of level 1 fishes
+	ld a, b
+	cp a, 0
+	jr nz, .notLost
+
+	; It's okay if there are no Level 1 fishes left if the player is already level 3
+	ld a, [PlayerLevel]
+	cp a, 3
+	jr z, .notLost
+
+	ld a, 2 ; Lost
+	ld [LevelWon], a
+
+.notLost:
+	ret
+
 
 
 
