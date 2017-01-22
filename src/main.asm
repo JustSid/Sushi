@@ -58,7 +58,7 @@ init:
 
 
 
-	ld hl, level01
+	ld hl, levelE01
 	store CurrentLevel, h, l
 
 	call loadLevel
