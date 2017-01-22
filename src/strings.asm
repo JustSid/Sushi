@@ -17,8 +17,8 @@ STRING: MACRO
 
 
 stringWon:
-	STRING "You won! Time to move on to the next challenge"
+	STRING "You won! Time to  move on to the    next challenge!"
 stringWonEnd:
 stringLost:
-	STRING "You and your bloodline lost. Better luck next time"
+	STRING "You and your bloodline lost. Better luck next time... Oh wait."
 stringLostEnd:
