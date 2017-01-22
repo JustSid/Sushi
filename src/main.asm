@@ -41,6 +41,13 @@ init:
 
 	jp showStartScreen
 
+backToMenu:
+	di
+	ld sp, $ffff
+
+	call disableLCD
+
+	jp showStartScreen
 
 startGame:
 	di
@@ -125,7 +132,35 @@ main:
 	jr z, .levelLost
 
 .levelWon:
-	ld hl, startNextLevel
+	load CurrentLevel, h, l
+	ld bc, 9 * 9
+	add hl, bc
+	store CurrentLevel, h, l
+
+	; Check if this was the last level
+	ld bc, LevelEnd
+
+	ld a, h
+	cp a, b
+	jr nz, .normalWon
+
+	ld a, l
+	cp a, c
+	jr nz, .normalWon
+
+	; Show the final "You won" message
+	ld hl, backToMenu
+	store UICallBack, h, l
+
+	ld hl, stringVictory
+	ld c, ((stringVictoryEnd - stringVictory) / LineLength)
+	call showText
+	call showUI
+
+	jr .wonFinish
+
+.normalWon:
+	ld hl, startLevel
 	store UICallBack, h, l
 
 	ld hl, stringWon
@@ -133,12 +168,13 @@ main:
 	call showText
 	call showUI
 
+.wonFinish
 	ld a, 0
 	ld [LevelWon], a
 	jr .skipLevelWon
 
 .levelLost:
-	ld hl, restartLevel
+	ld hl, startLevel
 	store UICallBack, h, l
 
 	ld hl, stringLost
@@ -158,7 +194,7 @@ main:
 	call z, updateGame
 	call gbt_update ; Update music player
 
-	jr main
+	jp main
 
 
 disableLCD:
@@ -183,18 +219,8 @@ enableLCD:
 	ret
 
 
-restartLevel:
+startLevel:
 	load CurrentLevel, h, l
-	call loadLevel
-	ret
-
-startNextLevel:
-	load CurrentLevel, h, l
-	ld bc, 9 * 9
-
-	add hl, bc
-	store CurrentLevel, h, l
-
 	call loadLevel
 	ret
 
