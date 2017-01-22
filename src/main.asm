@@ -101,8 +101,13 @@ main:
 	; Process input
 	call processInput
 
+	; Check wether the player has won or lost the game
+	ld a, [WaveType]
+	cp a, 0
+	jr nz, .skipLevelWon
+
 	ld a, [LevelWon]
-	or a
+	cp a, 0
 	jr z, .skipLevelWon
 
 	cp a, 2
