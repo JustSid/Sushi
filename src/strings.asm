@@ -23,5 +23,5 @@ stringLost:
 	STRING "You and your bloodline lost. Better luck next time... Oh wait."
 stringLostEnd:
 stringVictory:
-	STRING "You won! Everything is awesome if you are an overweight fish who ate a whole ocean worth of other fishes"
+	STRING "You won!          Everything is     awesome if you arean overweight fishwho ate a whole   ocean worth of    other fishes"
 stringVictoryEnd:
