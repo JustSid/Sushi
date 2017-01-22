@@ -509,6 +509,8 @@ calculateFishFeeding:
 	cp a, b
 	jr nc, .playerWon
 
+	ld a, b
+	ret
 
 .playerWon:
 	ld a, [PlayerFishCounter]
