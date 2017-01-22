@@ -752,36 +752,11 @@ loadLevel:
 
 PlaceFish: MACRO
 	push de
-	ld a, [AnimationFrame]
-	ld d, a
-	ld a, \1
-	cp 0
-	jr nz, .skipSmallFish\@
-	jr .skipSmallPlayer\@
-.skipSmallFish\@:
-	cp 1
-	jr nz, .skipMediumFish\@
-	sla d
-	ld a, 4
-	jr .skipSmallPlayer\@
-.skipMediumFish\@:
-	cp 2
-	jr nz, .skipFatFish\@
-	sla d
-	sla d
-	ld a, 12
-	jr .skipSmallPlayer\@
-.skipFatFish\@:
-	cp 3
-	jr nz, .skipSmallPlayer\@
-	sla d
-	sla d
-	ld a, 28
-	jr .skipSmallPlayer\@
-.skipSmallPlayer\@:
+	ld d, \1
+	ld a, \2
+	add a, d
 
 	add a, (fish-levelTiles)/16
-	add a, d
 	pop de
 	ld [de], a
 	inc de
@@ -845,7 +820,8 @@ updateLevel:
 	jr nz, .skipFish1
 
 	; Fish Level 1
-	PlaceFish $00
+	ld a, [AnimationFrame]
+	PlaceFish 0, a
 	jp .loopCompare
 
 .skipFish1:
@@ -853,8 +829,10 @@ updateLevel:
 	cp a, 2
 	jr nz, .skipFish2
 
-	; Fish Level 1
-	PlaceFish $01
+	; Fish Level 2
+	ld a, [AnimationFrame]
+	sla a
+	PlaceFish 4, a
 	jr .loopCompare
 
 .skipFish2:
@@ -862,12 +840,18 @@ updateLevel:
 	cp a, 3
 	jr nz, .skipFish3
 
-	; Fish Level 1
-	PlaceFish $02
+	; Fish Level 3
+	ld a, [AnimationFrame]
+	sla a
+	sla a
+	PlaceFish 12, a
 	jr .loopCompare
 
 .skipFish3
-	PlaceFish $03 ; Player
+	ld a, [AnimationFrame]
+	sla a
+	sla a
+	PlaceFish 28, a ; Player
 
 .loopCompare:
 	ld a, c
