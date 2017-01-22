@@ -47,23 +47,25 @@ updateIngameUI:
 
 .endFish:
 	ld a, [CurrentLevelNumber]
-	cp 1
-	jr nz, .level02
+	sub a, 10
+	jr nc, .levelgeq10
 
 	ld hl, _SCRN0 + 32*17 + 18
 	ld a, 37
 	ld [hl+], a
-	ld a, 38
+	ld a, [CurrentLevelNumber]
+	add a, 37
 	ld [hl], a
 	jr .endLevel
 
-.level02:
+.levelgeq10:
 	cp 2
 	jr nz, .level03
 	ld hl, _SCRN0 + 32*17 + 18
-	ld a, 37
+	ld a, 38
 	ld [hl+], a
-	ld a, 39
+	ld a, [CurrentLevelNumber]
+	add a, 27
 	ld [hl], a
 	jr .endLevel
 
