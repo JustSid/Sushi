@@ -255,6 +255,8 @@ levelE09:
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 	db 0, 0, 0,   0, 0, 0,   0, 0, 0
 
+LevelEnd:
+
 
 __LevelEmpty:
 	;         |          |

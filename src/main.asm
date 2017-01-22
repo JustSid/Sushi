@@ -70,16 +70,19 @@ startGame:
 
 	call enableLCD
 
+	ld a, 1
+	ld [CurrentLevelNumber], a
+
 	ld hl, LevelStart
 	store CurrentLevel, h, l
+
+	call loadLevel
 
 	; Set the cursor to the upper left corner
 	ld a, 1
 	ld [CursorX], a
 	ld a, 0
 	ld [CursorY], a
-
-	call loadLevel
 
 	; Enable interrupts
 	ld a, 0
@@ -122,7 +125,7 @@ main:
 	; Check wether the player has won or lost the game
 	ld a, [WaveType]
 	cp a, 0
-	jr nz, .skipLevelWon
+	jp nz, .skipLevelWon
 
 	ld a, [LevelWon]
 	cp a, 0
@@ -162,6 +165,10 @@ main:
 .normalWon:
 	ld hl, startLevel
 	store UICallBack, h, l
+
+	ld a, [CurrentLevelNumber]
+	inc a
+	ld [CurrentLevelNumber], a
 
 	ld hl, stringWon
 	ld c, ((stringWonEnd - stringWon) / LineLength)
