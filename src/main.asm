@@ -63,7 +63,7 @@ startGame:
 
 	call enableLCD
 
-	ld hl, levelE01
+	ld hl, LevelStart
 	store CurrentLevel, h, l
 
 	; Set the cursor to the upper left corner
